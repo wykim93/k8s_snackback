@@ -2,8 +2,10 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+# Add Slack Orb
 orbs:
   slack: circleci/slack@5.1.1
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
@@ -23,6 +25,10 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
+      - slack/notify:
+          event: pass  # Send Slack notification when the job passes
+      - slack/notify:
+          event: fail  # Send Slack notification when the job fails
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
@@ -31,3 +37,4 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - say-hello
+
